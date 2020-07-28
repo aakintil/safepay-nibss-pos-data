@@ -2,10 +2,20 @@
  * @name get text value of an element
  *
  * @desc Gets the text value of an element by using the page.$eval method
- *
+ * https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
  */
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
+const cron = require("node-cron");
+const express = require("express");
+const fs = require("fs");
+
+app = express();
+cron.schedule("* * * * *", function () {
+  console.log("running a task every minute");
+});
+
+app.listen(3128);
 
 (async () => {
   const browser = await puppeteer.launch({

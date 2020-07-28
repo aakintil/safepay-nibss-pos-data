@@ -4,6 +4,9 @@
   "description": "",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "node-cron": "^2.0.3",
     "puppeteer": "^1.6.2"
   },
   "main": "index.js",
