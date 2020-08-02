@@ -8,20 +8,18 @@
  * - need to ensure cron job is running at a specific time
  * - need to push node code to heroku
  */
+const mongoose = require('mongoose');
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const cron = require("node-cron");
 const express = require("express");
 const fs = require("fs");
+require('./models');
+
 
 app = express();
-cron.schedule("* * * * *", function () {
-  console.log("running a task every minute");
-});
 
-app.listen(3128);
-
-(async () => {
+cron.schedule('58 23 * * *', async () => {
   const browser = await puppeteer.launch({
     headless: false,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -37,7 +35,7 @@ app.listen(3128);
 
     await page.waitFor(20000);
 
-    const content = await page.content().then((html) => {
+    const content = await page.content().then( async (html) => {
       console.log("getting the content ");
       const $ = cheerio.load(html);
       const row = $(".row:nth-child(3)");
@@ -46,7 +44,7 @@ app.listen(3128);
       const todayFailureRate = $("#todayFailureRateOutward").text();
       const todayAvgProcessingTime = $("#todayProcessingTimeOutward").text();
       const todaySuccessPercentage = $("#todaySucccessOutward").text();
-      const todaySuccessVolOutward = $("#todaySucccessOutward").text();
+      const todaySuccessVolOutward = $("#todaySucccessVolOutward").text();
       const todayProcessorsErrorPercentage = $(
         "#todayErrorProcessorOutward"
       ).text();
@@ -112,11 +110,15 @@ app.listen(3128);
           todayOtherErrorVol,
         },
       };
-      console.log(obj);
+
+      const transaction = new (mongoose.model('Transactions'))(obj);
+      await transaction.save()
     });
   } catch (err) {
     console.error(err.message);
   } finally {
     await browser.close();
   }
-})();
+});
+
+app.listen(3128);
