@@ -19,7 +19,7 @@ require('./models');
 
 app = express();
 
-cron.schedule('58 23 * * *', async () => {
+cron.schedule('56 23 * * *', async () => {
   const browser = await puppeteer.launch({
     headless: false,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
