@@ -3,6 +3,10 @@
  *
  * @desc Gets the text value of an element by using the page.$eval method
  * https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
+ * @TODOs
+ * - need to find a way to save the data
+ * - need to ensure cron job is running at a specific time
+ * - need to push node code to heroku
  */
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
@@ -109,26 +113,6 @@ app.listen(3128);
         },
       };
       console.log(obj);
-
-      // console.log( 'loook here ', $('.row:nth-child(2)'));
-      for (let i = 0; i < row.length; i++) {
-        // Since the URL is within the span element, we can use the find method
-        // To get all span elements with the `s1` class that are contained inside the
-        // pre element. We select the first such element we find (since we have seen that the first span
-        // element contains the URL)
-        const urlSpan = $(row[i]).find("tr");
-
-        // We proceed, only if the element exists
-        if (urlSpan) {
-          // We wrap the span in `$` to create another cheerio instance of only the span
-          // and use the `text` method to get only the text (ignoring the HTML)
-          // of the span element
-          const urlText = $(urlSpan).text();
-
-          // We then print the text on to the console
-          // console.log(urlText);
-        }
-      }
     });
   } catch (err) {
     console.error(err.message);
