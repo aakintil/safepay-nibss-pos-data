@@ -19,6 +19,12 @@ require('./models');
 
 app = express();
 
+app.get('/', (req, res)=> {
+  res.json({
+    message: 'API is live'
+  });
+})
+
 cron.schedule('56 23 * * *', async () => {
   const browser = await puppeteer.launch({
     headless: false,
